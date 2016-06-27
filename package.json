@@ -1,0 +1,17 @@
+{
+  "name": "generator-new-project",
+  "version": "0.1.0",
+  "description": "A generator to build a new personal blank project",
+  "files": [
+    "app"
+  ],
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "mkdirp": "^0.5.1",
+    "path": "^0.11.14",
+    "yeoman-generator": "^0.20.3",
+    "yosay": "^1.0.5"
+  }
+}
