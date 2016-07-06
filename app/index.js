@@ -154,7 +154,7 @@ module.exports = generators.Base.extend({
                     'copy:fontsicons'
                 ]
             );
-            this.gruntfile.prependJavaScript("grunt.registerTask('listItems', 'Lists the handlebars pages', function() {var sourceUrl = 'source/html/pages/';var files = grunt.file.expand(sourceUrl + '**/*.{hbs,handlebars}');if(files.length > 0) {var contents = '<h2>List of pages:</h2><ul>';for(var i = 0; i < files.length; i++) {var temp = files[i].split(sourceUrl);var title;if(temp[1].indexOf('handlebars') < 0) {title = temp[1].split('.hbs');} else {title = temp[1].split('.handlebars');}contents += '<li><a href=\"' + title[0] + '.html\">' + title[0] + '</li>';}contents += '</ul>';}grunt.file.write('source/html/partials/fileList.handlebars', contents);});");
+            this.gruntfile.prependJavaScript("grunt.registerTask('listItems', 'Lists the handlebars pages', function() {var sourceUrl = 'source/html/pages/';var files = grunt.file.expand(sourceUrl + '**/*.{hbs,handlebars}');if(files.length > 0) {var contents = '<h2>List of pages:</h2><ul>';for(var i = 0; i < files.length; i++) {var temp = files[i].split(sourceUrl);var title;if(temp[1].indexOf('handlebars') < 0) {title = temp[1].split('.hbs');} else {title = temp[1].split('.handlebars');}contents += '<li><a href=\"' + title[0] + '.html\">' + title[0] + '</a></li>';}contents += '</ul>';}grunt.file.write('source/html/partials/fileList.handlebars', contents);});");
         }
         else {
             this.gruntfile.registerTask(
