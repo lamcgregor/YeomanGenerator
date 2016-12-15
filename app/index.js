@@ -30,7 +30,7 @@ module.exports = generators.Base.extend({
                 type: 'input',
                 name: 'app-version',
                 message: 'What version shall we start at`?',
-                default: '0.1.0'
+                default: '0.1.1'
             },
             {
                 type: 'input',
@@ -131,9 +131,9 @@ module.exports = generators.Base.extend({
         createDir('source/js', this);
         createDir('source/css', this);
         createDir('dist', this);
-        this.gruntfile.loadNpmTasks(['grunt-contrib-connect','grunt-contrib-stylus','grunt-contrib-copy','assemble','grunt-contrib-watch']);
+        this.gruntfile.loadNpmTasks(['grunt-contrib-connect','grunt-contrib-stylus','grunt-contrib-copy','grunt-assemble','grunt-contrib-watch']);
         if(configuration.assemble) {
-            this.gruntfile.loadNpmTasks('assemble');
+            this.gruntfile.loadNpmTasks('grunt-assemble');
             this.gruntfile.registerTask(
                 'build', [
                     'listItems',
