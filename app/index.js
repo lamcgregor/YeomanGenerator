@@ -15,7 +15,7 @@ var createDir = function(name, obj) {
 }
 module.exports = generators.Base.extend({
     initializing: function() {
-        this.log(yosay("Welcome to the 'new project' generator built using Yeoman"));
+        this.log(yosay("Welcome to the 'new project' generator built using Yeoman v0.5.0"));
     },
     prompting: function() {
         var done = this.async();

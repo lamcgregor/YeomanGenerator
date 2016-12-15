@@ -1,6 +1,6 @@
 {
   "name": "generator-new-project",
-  "version": "0.3.0",
+  "version": "0.5.0",
   "description": "A generator to build a new personal blank project",
   "files": [
     "app"
