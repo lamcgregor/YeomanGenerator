@@ -1,4 +1,4 @@
-var generators = require('yeoman-generator');
+var Generator = require('yeoman-generator');
 var yosay = require('yosay');
 var path = require('path');
 var mkdirp = require('mkdirp');
@@ -13,11 +13,16 @@ var configuration = {
 var createDir = function(name, obj) {
     mkdirp.sync(path.join(obj.destinationPath(), name));
 }
-module.exports = generators.Base.extend({
-    initializing: function() {
-        this.log(yosay("Welcome to the 'new project' generator built using Yeoman"));
-    },
-    prompting: function() {
+module.exports = class extends Generator {
+    constructor(args, opts) {
+        super(args,opts);
+    }
+    initializing() {
+        this.log("initializing task");
+        return this.log(yosay("Welcome to the 'new project' generator built using Yeoman"));
+    }
+    prompting() {
+        this.log("prompting task");
         var done = this.async();
         var prompts =[
             {
@@ -64,22 +69,27 @@ module.exports = generators.Base.extend({
                 default: 'test@test.com'
             }
         ]
-        this.prompt(prompts, function(answer) {
-            configuration.gulp = answer['gulp-true'] == 'gulp';
-            configuration.appTitle = answer['app-title'];
-            configuration.safeTitle = answer['app-title'].toLowerCase().replace(/ /g,'_').replace(/\W/g,'');
-            configuration.appVersion = answer['app-version'];
-            configuration.appDesc = answer['app-description'];
-            if(answer['email-address']) {
-                configuration.appEmail = "Built by " + answer['email-address'] + ".";
-            }
-            done();
-        }.bind(this));
-    },
-    configuring: function() {
+        this.prompt(prompts)
+            .then((answer) => {
+                this.log("saving prompt answers");
+                configuration.gulp = answer['gulp-true'] == 'gulp';
+                configuration.appTitle = answer['app-title'];
+                configuration.safeTitle = answer['app-title'].toLowerCase().replace(/ /g,'_').replace(/\W/g,'');
+                configuration.appVersion = answer['app-version'];
+                configuration.appDesc = answer['app-description'];
+                if(answer['email-address']) {
+                    configuration.appEmail = "Built by " + answer['email-address'] + ".";
+                }
+                this.log("saved prompt answers");
+                done();
+            });
+    }
+    configuring() {
+        this.log("configuring task");
         this.config.save()
-    },
-    writing: function() {
+    }
+    writing() {
+        this.log("writing task");
         createDir('source/html/partials', this);
         createDir('source/html/data', this);
         createDir('source/images', this);
@@ -150,11 +160,12 @@ module.exports = generators.Base.extend({
                 this.destinationPath('gruntfile.js')
             );
         }
-    },
-    install: function() {
+    }
+    install() {
+        this.log("install task");
         this.log(yosay("Running npm install for you"));
         if(configuration.gulp) {
-            this.installDependencies({
+             this.installDependencies({
                 callback: function() {
                     this.spawnCommand('gulp');
                 }.bind(this)
@@ -167,8 +178,9 @@ module.exports = generators.Base.extend({
                 }.bind(this)
             });
         }
-    },
-    end: function() {
+    }
+    end() {
+        this.log("end task");
         this.log(yosay("Thanks!"));
     }
-});
+}
