@@ -2,8 +2,7 @@
 
 A front end environment builder using Yeoman
 
-Should be installed after node and grunt has been installed.
-Please follow the instructions here: http://gruntjs.com/getting-started
+Should be installed after node and grunt(or gulp!) has been installed.
 
 Once grunt and npm work globally then install yeoman:
 
