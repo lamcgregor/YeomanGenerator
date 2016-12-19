@@ -13,6 +13,7 @@
     "grunt-contrib-stylus": "^1.2.0",
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-newer": "^1.2.0"
+    "grunt-newer": "^1.2.0",
+    "handlebars-layouts": "^3.1.4"
   }
 }

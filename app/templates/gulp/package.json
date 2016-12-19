@@ -1,0 +1,16 @@
+{
+  "name": "<%= safeTitle %>",
+  "version": "<%= version %>",
+  "description": "<%= description %>",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-connect": "^5.0.0",
+    "gulp-ext": "^1.0.0",
+    "gulp-front-matter": "^1.3.0",
+    "gulp-hb": "^5.1.4",
+    "gulp-open": "^2.0.0",
+    "gulp-sourcemaps": "^1.9.1",
+    "gulp-stylus": "^2.6.0",
+    "handlebars-layouts": "^3.1.4"
+  }
+}

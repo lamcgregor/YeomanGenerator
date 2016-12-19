@@ -1,0 +1,9 @@
+{{#if pageContent}}
+    {{#with pageContent}}
+        {{#if title}}<h1>{{title}}</h1>{{/if}}
+        {{#each item}}
+            {{#if title}}<h2>{{title}}</h2>{{/if}}
+            {{#if contents}}<p>{{contents}}</p>{{/if}}
+        {{/each}}
+    {{/with}}
+{{/if}}

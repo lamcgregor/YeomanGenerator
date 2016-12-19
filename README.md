@@ -1,30 +1,34 @@
 # YeomanGenerator
-A Yeoman front end environment builder
 
-##Installation instructions
+A front end environment builder using Yeoman
 
-1) Ensure that Grunt and NodeJS are installed, follow the instructions (here if not )[http://gruntjs.com/getting-started]
+Should be installed after node and grunt has been installed.
+Please follow the instructions here: http://gruntjs.com/getting-started
 
-2) Clone down this repo locally
+Once grunt and npm work globally then install yeoman:
 
-3) Open a terminal (or git bash or whatever) window in this folder and run:
+    npm install -g yo
 
-    npm install
+Once that has been run then the generator
 
-4) Once the modules are installed
+    npm install -g https://github.com/aqueduct/YeomanGenerator.git
+    
+Create the folder you wish to create the environment in
 
-    npm link
+    mkdir Company.Frontend
+    
+Navigate in to it
 
-5) This links this folder in to appdata/roaming and ensures it is accessible via the command line
-
-6) Create a folder for the new front end environment
-
-7) Open a terminal window in that folder and run:
+    cd Company.Frontend
+    
+And run the generator
 
     yo new-project
+    
+Follow the prompts, and it should install and run everything automagically. The default command ("grunt" or "gulp") runs the local server etc.
 
-8) Follow the command line prompts (the content in brackets is the defaults and can be used instead of typing content by pressing enter)
+##Updating
 
-9) ??
+If you ever need to update the environment builder, just update it with npm
 
-10) Profit
+    npm update -g generator-new-project
