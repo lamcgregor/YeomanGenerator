@@ -1,12 +1,26 @@
 <!doctype html>
 <html lang="en">
     <head>
+        <meta charset="utf-8" /> 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
         <title>{{#if title}}{{title}}{{else}}Index{{/if}} | New project</title>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
-        <script src="js/test.js"></script>
-        <link rel="stylesheet" type="text/css" href="css/global.css" />
+        <meta name="description" content="{{#if desc}}{{desc}}{{else}}Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce non ipsum eget nulla tincidunt malesuada eu at est. Aliquam ex augue, imperdiet at neque eget, efficitur tincidunt justo. Donec tincidunt maximus diam eget dictum.{{/if}}">
+        <link rel="shortcut icon" href="images/favicon-small.png" />
+        <link rel="shortcut icon" href="images/favicon.png" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="theme-color" content="#1C1D20">
+        {{> socialMediaTags}}
+        <link rel="stylesheet" type="text/css" href="css/core.css" />
+        <!--[if lt IE 9]>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <![endif]-->
     </head>
     <body>
-        {{> body}}
+
+        <div class="wrapper">
+            {{> body}}
+        </div>
+
     </body>
 </html>
