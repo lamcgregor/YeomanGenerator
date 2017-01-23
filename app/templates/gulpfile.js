@@ -4,6 +4,7 @@ var gutil = require('gulp-util');
 var through = require('through2');
 var fs = require('fs');
 var path = require('path');
+var gutil = require('gulp-util');
 
 //handlebars task dependencies
 var handlebars = require('gulp-hb');
@@ -27,7 +28,7 @@ gulp.task('build', ['handlebars','styles','copy']);
 
 gulp.task('dev', ['handlebars','styles','copy']);
 
-gulp.task('default', ['server','watch']);
+gulp.task('default', ['dev', 'server','watch']);
 
 
 gulp.task('createList', function(done) {
@@ -35,7 +36,7 @@ gulp.task('createList', function(done) {
     var stream = gulp.src(config.source + 'html/pages/**/*.{hbs,handlebars}')
         .pipe(through.obj(function(file, enc, cb) {
             var filename = path.basename(file.path).split('.')[0];
-            gutil.log(filename);
+            gutil.log("Building", "'" + gutil.colors.cyan(filename) + "'");
             fileList += '<li><a href="' + filename + '.html">' + filename + '</a></li>';
             return cb();
         }))
@@ -46,13 +47,13 @@ gulp.task('createList', function(done) {
     })
     stream.on('finish', function() {
         done();
-    })
+    });
 })
 
 
 gulp.task('handlebars', ['createList'], function() {
 
-    gulp.src(config.source + 'html/pages/**/*.{hbs,handlebars}')
+    return gulp.src(config.source + 'html/pages/**/*.{hbs,handlebars}')
         .pipe(frontMatter({
             property: 'data',
             remove: true
@@ -72,7 +73,7 @@ gulp.task('handlebars', ['createList'], function() {
 
 gulp.task('styles', function() {
 
-    gulp.src(config.source + 'css/core.styl')
+    return gulp.src(config.source + 'css/core.styl')
         .pipe(sourcemaps.init())
         .pipe(stylus())
         .pipe(sourcemaps.write())
@@ -83,7 +84,7 @@ gulp.task('styles', function() {
 
 gulp.task('copy', function() {
 
-    gulp.src([
+    return gulp.src([
             config.source + 'images/**/*.*',
             config.source + 'content-images/**/*.*'
         ])
@@ -92,9 +93,9 @@ gulp.task('copy', function() {
 
 });
 
-gulp.task('connect', ['dev'], function() {
+gulp.task('connect', function() {
 
-    connect.server({
+    return connect.server({
         root: config.output,
         port: 9012,
         livereload: true
@@ -103,7 +104,7 @@ gulp.task('connect', ['dev'], function() {
 });
 
 gulp.task('server', ['connect'], function() {
-    gulp.src(__filename)
+    return gulp.src(__filename)
         .pipe(open({
             uri: 'http://localhost:9012'
         }))
@@ -111,16 +112,38 @@ gulp.task('server', ['connect'], function() {
 });
 
 gulp.task('watch', function() {
-
-    gulp.watch(config.source + 'html/pages/**/*.*', ['createList'])
+    //HTML watch
     gulp.watch([
-        config.source + 'html/**/*.*',
-        '!' + config.source + 'html/pages/**/*.*'
-    ], ['handlebars'])
+            config.source + 'html/**/*.*',
+            '!' + config.source + 'html/partials/fileList.handlebars'
+        ],
+        ['handlebars']
+    ).on('change', function(file) {
+        watchMessage("HTML", file);
+    })
+    //Images watch
     gulp.watch([
-        config.source + 'images/**/*.*',
-        config.source + 'content-images/**/*.*'
-    ], ['copy'])
-    gulp.watch(config.source + 'css/**/*.*', ['styles'])
+            config.source + 'images/**/*.*',
+            config.source + 'content-images/**/*.*'
+        ],
+        ['copy']
+    ).on('change', function(file) {
+        watchMessage("images", file);
+    })
+    //CSS watch
+    gulp.watch(
+        config.source + 'css/**/*.*',
+        ['styles']
+    ).on('change', function(file) {
+        watchMessage("CSS", file);
+    })
 
 });
+
+function watchMessage(taskname, file) {
+    return gutil.log(
+        "File: ",
+        gutil.colors.green(file.path),
+        gutil.colors.cyan("caused " + taskname + " watch to run")
+    );
+}

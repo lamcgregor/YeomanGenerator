@@ -11,6 +11,7 @@
     "gulp-open": "^2.0.0",
     "gulp-sourcemaps": "^1.9.1",
     "gulp-stylus": "^2.6.0",
+    "gulp-util": "^3.0.8",
     "handlebars-layouts": "^3.1.4"
   }
 }
