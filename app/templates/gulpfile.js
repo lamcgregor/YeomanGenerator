@@ -1,22 +1,28 @@
-var gulp = require('gulp');
-var ext = require('gulp-ext');
-var gutil = require('gulp-util');
-var through = require('through2');
-var fs = require('fs');
-var path = require('path');
-var gutil = require('gulp-util');
+var gulp = require('gulp'),
+    ext = require('gulp-ext'),
+    gutil = require('gulp-util'),
+    through = require('through2'),
+    fs = require('fs'),
+    path = require('path'),
+    gutil = require('gulp-util');
 
 //handlebars task dependencies
-var handlebars = require('gulp-hb');
-var handlebarsLayouts = require('handlebars-layouts');
-var frontMatter = require('gulp-front-matter');
+var handlebars = require('gulp-hb'),
+    handlebarsLayouts = require('handlebars-layouts'),
+    frontMatter = require('gulp-front-matter');
 
 //styles task dependencies
 var stylus = require('gulp-stylus');
 
 //server task dependencies
-var connect = require('gulp-connect');
-var open = require('gulp-open');
+var connect = require('gulp-connect')
+    open = require('gulp-open');
+
+//iconfont task dependencies
+var consolidate = require('gulp-consolidate'),
+    rename = require('gulp-rename'),
+    args = require('yargs').argv,
+    iconfont = require('gulp-iconfont');
 
 var config = {
     source: 'source/',
@@ -146,3 +152,43 @@ function watchMessage(taskname, file) {
         gutil.colors.cyan("caused " + taskname + " watch to run")
     );
 }
+
+/*
+
+Versioning used for iconfont, syntax:
+gulp [task] --version=2.0.1
+
+*/
+
+gulp.task('iconfont', function(){
+    var version = args.version ? args.version.toString() : "1.0";
+    gutil.log("font version: " + version);
+    return gulp.src([config.source + 'images/icons/*.svg'])
+        .pipe(iconfont({
+            normalize: true,
+            fontName: 'IconFont',
+            formats: ['ttf', 'eot', 'woff', 'svg'],
+            versionNumber: version,
+            prependUnicode: false
+        }))
+        // automatically assign a unicode value to the icon
+        .on('glyphs', function(glyphs, options) {
+            glyphs.forEach(function(glyph, idx, arr) {
+                arr[idx].unicode = glyph.unicode[0].charCodeAt(0).toString(16).toUpperCase();
+            });
+            gutil.log(glyphs);
+            gutil.log(__dirname + '/icons-template.styl');
+            return gulp.src(__dirname + '/icons-template.styl') // a template styl file, used to generate the styl code for all the icons
+                .pipe(consolidate('lodash', {
+                    // see the font-template.styl file to see how the following 'fontName' and 'fontPath' values are used
+                    glyphs: glyphs,
+                    versionNumber: options.versionNumber,
+                    fontName: options.fontName,
+                    fontPath: 'fonts/',
+                    cssClass: 'icon'
+                }))
+                .pipe(rename('icons.styl'))
+                .pipe(gulp.dest(config.source + 'css/imports')); // where to save "_icons.styl"
+        })
+        .pipe(gulp.dest(config.source + 'fonts'));
+});

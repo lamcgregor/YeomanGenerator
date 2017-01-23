@@ -1,0 +1,21 @@
+@font-face
+    font-family "<%= fontName %>"
+    src url('<%= fontPath %><%= fontName %>.eot?v=<%= versionNumber %>')
+    src url('<%= fontPath %><%= fontName %>.eot?v=<%= versionNumber %>#iefix') format('eot')
+        url('<%= fontPath %><%= fontName %>.woff?v=<%= versionNumber %>') format('woff')
+        url('<%= fontPath %><%= fontName %>.ttf?v=<%= versionNumber %>') format('truetype')
+        url('<%= fontPath %><%= fontName %>.svg?v=<%= versionNumber %>#<%= fontName %>') format('svg')
+
+.<%= cssClass%>
+    font-family "<%= fontName %>"
+    -webkit-font-smoothing antialiased
+    -moz-osx-font-smoothing grayscale
+    font-style normal
+    font-variant normal
+    font-weight normal
+    text-decoration none
+    text-transform none
+<% _.each(glyphs, function(glyph) { %>
+.<%= cssClass%>-<%= glyph.name %>
+    content "\<%= glyph.unicode%>"
+<% }); %>

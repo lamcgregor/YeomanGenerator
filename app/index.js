@@ -134,6 +134,10 @@ module.exports = class extends Generator {
                 this.templatePath('gulpfile.js'),
                 this.destinationPath('gulpfile.js')
             );
+            this.fs.copy(
+                this.templatePath('gulp/icons-template.styl'),
+                this.destinationPath('icons-template.styl')
+            );
         }
         else {
             this.log(yosay("Writing gruntfile"));
