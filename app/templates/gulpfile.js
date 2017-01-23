@@ -13,7 +13,6 @@ var frontMatter = require('gulp-front-matter');
 
 //styles task dependencies
 var stylus = require('gulp-stylus');
-var sourcemaps = require('gulp-sourcemaps');
 
 //server task dependencies
 var connect = require('gulp-connect');
@@ -74,9 +73,9 @@ gulp.task('handlebars', ['createList'], function() {
 gulp.task('styles', function() {
 
     return gulp.src(config.source + 'css/core.styl')
-        .pipe(sourcemaps.init())
-        .pipe(stylus())
-        .pipe(sourcemaps.write())
+        .pipe(stylus({
+            linenos: true
+        }))
         .pipe(gulp.dest(config.output + 'css/'))
         .pipe(connect.reload());
 
