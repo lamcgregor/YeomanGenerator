@@ -102,6 +102,10 @@ module.exports = class extends Generator {
             this.templatePath('source/**/*'),
             this.destinationPath('source')
         );
+        this.fs.copy(
+            this.templatePath('.gitignore'),
+            this.destinationPath('.gitignore')
+        );
         if(configuration.gulp) {
             this.log(yosay("Writing gulpfile"));
             this.fs.copyTpl(
