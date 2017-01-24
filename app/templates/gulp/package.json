@@ -3,7 +3,9 @@
   "version": "<%= version %>",
   "description": "<%= description %>",
   "dependencies": {
+    "babelify": "^7.3.0",
     "gulp": "^3.9.1",
+    "gulp-browserify": "^0.5.1",
     "gulp-connect": "^5.0.0",
     "gulp-consolidate": "^0.2.0",
     "gulp-ext": "^1.0.0",
@@ -18,5 +20,10 @@
     "handlebars-layouts": "^3.1.4",
     "lodash": "^4.17.4",
     "yargs": "^6.6.0"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.22.0",
+    "jquery": "^3.1.1",
+    "slick-carousel": "^1.6.0"
   }
 }

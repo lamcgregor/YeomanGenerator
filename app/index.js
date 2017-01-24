@@ -135,8 +135,16 @@ module.exports = class extends Generator {
                 this.destinationPath('gulpfile.js')
             );
             this.fs.copy(
+                this.templatePath('gulp/js/**/*'),
+                this.destinationPath('source/js')
+            );
+            this.fs.copy(
                 this.templatePath('gulp/icons-template.styl'),
                 this.destinationPath('icons-template.styl')
+            );
+            this.fs.copy(
+                this.templatePath('gulp/.babelrc'),
+                this.destinationPath('.babelrc')
             );
         }
         else {

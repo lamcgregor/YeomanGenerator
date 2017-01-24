@@ -4,6 +4,7 @@ var gulp = require('gulp'),
     through = require('through2'),
     fs = require('fs'),
     path = require('path'),
+    rename = require('gulp-rename'),
     gutil = require('gulp-util');
 
 //handlebars task dependencies
@@ -14,13 +15,16 @@ var handlebars = require('gulp-hb'),
 //styles task dependencies
 var stylus = require('gulp-stylus');
 
+//scripts task dependencies
+var browserify = require('gulp-browserify'),
+    babelify = require('babelify');
+
 //server task dependencies
 var connect = require('gulp-connect')
     open = require('gulp-open');
 
 //iconfont task dependencies
 var consolidate = require('gulp-consolidate'),
-    rename = require('gulp-rename'),
     args = require('yargs').argv,
     iconfont = require('gulp-iconfont');
 
@@ -70,6 +74,7 @@ gulp.task('handlebars', ['createList'], function() {
             .partials(config.source + 'html/partials/**/*.{hbs,handlebars}')
             .partials(config.source + 'html/layouts/**/*.{hbs,handlebars}')
         )
+        .on('error', function(err) { console.error(err); this.emit('end'); })
         .pipe(ext.replace('html'))
         .pipe(gulp.dest(config.output))
         .pipe(connect.reload());
@@ -82,7 +87,20 @@ gulp.task('styles', function() {
         .pipe(stylus({
             linenos: true
         }))
+        .on('error', function(err) { console.error(err); this.emit('end'); })
         .pipe(gulp.dest(config.output + 'css/'))
+        .pipe(connect.reload());
+
+});
+
+gulp.task('scripts', function() {
+
+    return gulp.src(config.source + 'js/main.js')
+        .pipe(browserify({
+            transform: ['babelify']
+        }))
+        .on('error', function(err) { console.error(err); this.emit('end'); })
+        .pipe(gulp.dest(config.output + 'js/'))
         .pipe(connect.reload());
 
 });
@@ -93,6 +111,7 @@ gulp.task('copy', function() {
             config.source + 'images/**/*.*',
             config.source + 'content-images/**/*.*'
         ])
+        .on('error', function(err) { console.error(err); this.emit('end'); })
         .pipe(gulp.dest(config.output + 'images/'))
         .pipe(connect.reload());
 
@@ -119,7 +138,7 @@ gulp.task('server', ['connect'], function() {
 gulp.task('watch', function() {
     //HTML watch
     gulp.watch([
-            config.source + 'html/**/*.*',
+            config.source + 'html/**/*',
             '!' + config.source + 'html/partials/fileList.handlebars'
         ],
         ['handlebars']
@@ -128,7 +147,7 @@ gulp.task('watch', function() {
     })
     //Images watch
     gulp.watch([
-            config.source + 'images/**/*.*',
+            config.source + 'images/**/*',
             config.source + 'content-images/**/*.*'
         ],
         ['copy']
@@ -137,10 +156,17 @@ gulp.task('watch', function() {
     })
     //CSS watch
     gulp.watch(
-        config.source + 'css/**/*.*',
+        config.source + 'css/**/*',
         ['styles']
     ).on('change', function(file) {
         watchMessage("CSS", file);
+    })
+    //JS watch
+    gulp.watch(
+        config.source + 'js/**/*',
+        ['scripts']
+    ).on('change', function(file) {
+        watchMessage("JS", file);
     })
 
 });
