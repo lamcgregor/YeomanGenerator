@@ -103,7 +103,7 @@ module.exports = class extends Generator {
             this.destinationPath('source')
         );
         this.fs.copy(
-            this.templatePath('.gitignore'),
+            this.templatePath('.npmignore'),
             this.destinationPath('.gitignore')
         );
         if(configuration.gulp) {
