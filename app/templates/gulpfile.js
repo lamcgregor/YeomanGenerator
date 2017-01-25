@@ -33,9 +33,9 @@ var config = {
     output: 'dist/'
 }
 
-gulp.task('build', ['handlebars','styles','copy']);
+gulp.task('build', ['handlebars','styles','scripts','copy']);
 
-gulp.task('dev', ['handlebars','styles','copy']);
+gulp.task('dev', ['handlebars','styles','scripts','copy']);
 
 gulp.task('default', ['dev', 'server','watch']);
 

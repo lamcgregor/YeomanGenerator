@@ -1,9 +1,13 @@
 {{#if pageContent}}
     {{#with pageContent}}
         {{#if title}}<h1>{{title}}</h1>{{/if}}
-        {{#each item}}
-            {{#if title}}<h2>{{title}}</h2>{{/if}}
-            {{#if contents}}<p>{{contents}}</p>{{/if}}
-        {{/each}}
+        <div class="carousel">
+	        {{#each item}}
+	        	<div class="slide">
+		            {{#if title}}<h2>{{title}}</h2>{{/if}}
+		            {{#if contents}}<p>{{contents}}</p>{{/if}}
+	            </div>
+        	{{/each}}
+    	</div>
     {{/with}}
 {{/if}}
