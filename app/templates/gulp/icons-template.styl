@@ -16,6 +16,6 @@
     text-decoration none
     text-transform none
 <% _.each(glyphs, function(glyph) { %>
-.<%= cssClass%>-<%= glyph.name %>
+.<%= cssClass%>-<%= glyph.name %>:before
     content "\<%= glyph.unicode%>"
 <% }); %>
